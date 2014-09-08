@@ -67,6 +67,10 @@ From within the console run ...
 
   We'll see that the `dogs` table now holds five records.
 
+- `Dog.create [{name: "Toot"}, {name: "Cosmo"}]`
+
+  We can also create multiple records with one call to `::create` by passing an array of argument hashes.
+
 
 ### Release 1: `find_or_initialize_by` and `find_or_create_by`
 
@@ -74,7 +78,7 @@ Sometimes we are unsure whether a record already exists in the database.  For ex
 
 - `Dog.pluck(:name)`
 
-  We'll see that the names of our dogs are `"Tenley"`, `"Jayda"`, and `"Eleanor"`.
+  We'll see the names or the dogs in our database.  Note that the name `"Tenley"` is already in the database.
 
 - `Dog.find_or_initialize_by(name: "Tenley", license: "OH-9384764")`
 
