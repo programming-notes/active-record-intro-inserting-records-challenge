@@ -14,7 +14,7 @@ describe "dogs table" do
 
 
   it "has columns with the right names" do
-    expected_column_names = ["id", "age", "name", "license", "created_at", "updated_at", "breed"].sort
+    expected_column_names = ["id", "age", "name", "license", "owner_id", "created_at", "updated_at", "breed"].sort
     actual_column_names   = database_connection.columns(:dogs).map(&:name).sort
 
     expect(actual_column_names).to eq expected_column_names
@@ -22,7 +22,7 @@ describe "dogs table" do
 
 
   it "has columns of the proper type" do
-    expected_column_types_and_names = { :integer => ["id", "age"],
+    expected_column_types_and_names = { :integer => ["id", "age", "owner_id"],
                                         :string => ["name", "license", "breed"],
                                         :datetime => ["created_at", "updated_at"] }
 
