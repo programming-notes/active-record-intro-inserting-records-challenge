@@ -37,9 +37,29 @@ bundle exec rake console
 
 We're going to work with our `Dog` class from within the Rake console.  Let's begin by opening the console (see Figure 3).  Once it's open, we can begin interacting with our models.  As we work through each release, we should execute the provided example code ourselves and look at the return values.
 
-### Release 0: `::new` and `::create`
+### Release 0: Instantiating a New Object
+```ruby
+new_dog = Dog.new(name: "Bear")
+```
+*Figure 4*.  Instantiating a new dog.
 
-We're going to work with our `Dog` class from within the console.  To open the console, from the command line, run `bundle exec rake console`.  We're going to sample the class methods for inserting new records into the database that our class inherits from ActiveRecord::Base.  For more details, read through the [RailsGuides](http://guides.rubyonrails.org/).  
+Active Record provides the same interface for instantiating new objects and we're used to using with our plain Ruby classes:  we call `.new` on our class and pass in a hash of attribute values.  In Figure 4, we're creating a new instance of the `Dog` class and assigning its name attribute the value `"Bear"`.
+
+In our plain Ruby classes, each of the keys in the hash we pass in probably maps to an instance variable that we want to set in our `#initialize` method.  A similar thing happens here.  In the case of Figure 4, we end up with a dog object with the name `"Bear"`.  But there is a catch.
+
+```ruby
+Dog.new(color: "brown")
+```
+*Figure 5*.  Instantiating a dog with an unknown attribute.
+
+In Figure 4, we're able to set the name of our dog because the dogs table in the database has a name column—the key in the hash matched a column on the table.  What happens when keys in the hash we pass in don't match the columns in the database table (see Figure 5)?
+
+In our plain Ruby objects, we probably just ignore unexpected keys, but Active Record won't ignore them.  It tries to set the value of all keys in the hash.  If the attribute doesn't exist, it throws an error.  When we run the code in Figure 5, what type of error is produced?
+
+
+
+`::new` and `::create`
+
 
 From within the console run ...
 
