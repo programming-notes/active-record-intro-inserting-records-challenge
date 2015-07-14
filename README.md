@@ -19,16 +19,23 @@ We need to make a distinction between creating objects in Ruby that exist in our
 
 
 ## Releases
+### Pre-release: Setup
+```
+$ bundle install
+$ bundle exec rake db:create
+$ bundle exec rake db:migrate
+$ bundle exec rake db:seed
+```
+*Figure 2*.  Setting up and seeding the database.
 
-### Pre-release: Create, Migrate, and Seed the Database
+Before we begin inserting records into the database, we need to create our database. We'll seed it with a few records, too.  All the files necessary for this are provided:  the migrations and the seeds file.  We simply need to run the Rake tasks (see Figure 2).
 
-1. Run Bundler to ensure that the proper gems have been installed.
+```
+bundle exec rake console
+```
+*Figure 3*.  Executing the Rake task to open IRB with our environment loaded.
 
-2. Use the provided Rake task to create the database.
-
-3. Use the provided Rake task to migrate the database.
-
-4. Use the provided Rake task to seed the database.  This will execute the code written in `db/seeds.rb`.  This file has been written to add three dogs to our database:  Tenley, Jayda, and Eleanor.
+We're going to work with our `Dog` class from within the Rake console.  Let's begin by opening the console (see Figure 3).  Once it's open, we can begin interacting with our models.  As we work through each release, we should execute the provided example code ourselves and look at the return values.
 
 ### Release 0: `::new` and `::create`
 
