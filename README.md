@@ -43,7 +43,7 @@ new_dog = Dog.new(name: "Bear")
 ```
 *Figure 4*.  Instantiating a new dog.
 
-Active Record provides the same interface for instantiating new objects and we're used to using with our plain Ruby classes:  we call `.new` on our class and pass in a hash of attribute values.  In Figure 4, we're creating a new instance of the `Dog` class and assigning its name attribute the value `"Bear"`.
+Active Record provides the same interface for instantiating new objects and we're used to using with our plain Ruby classes:  we call `.new` on our class and pass in a hash of attribute values.  In Figure 4, we're creating a new instance of the `Dog` class and assigning its name attribute the value `"Bear"`.  The attributes that we didn't specify have been set to `nil`, as we might expect.  Notice, the value of the `id` attribute; it is also `nil`.
 
 In our plain Ruby classes, each of the keys in the hash we pass in probably maps to an instance variable that we want to set in our `#initialize` method.  A similar thing happens here.  In the case of Figure 4, we end up with a dog object with the name `"Bear"`.  But there is a catch.
 
@@ -57,37 +57,40 @@ In Figure 4, we're able to set the name of our dog because the dogs table in the
 In our plain Ruby objects, we probably just ignore unexpected keys, but Active Record won't ignore them.  It tries to set the value of all keys in the hash.  If the attribute doesn't exist, it throws an error.  When we run the code in Figure 5, what type of error is produced?
 
 
+### Release 1: Persisting an Object
+In *Release 0* we created a new dog object, and we assigned it to the variable `new_dog` (see Figure 4).  This object exists only in memory, and it is not backed up in the database.
 
-`::new` and `::create`
+```
+Dog.count
+```
+*Figure 6*. Determining how many dog records exist in the database.
 
+When we seeded our database in the *Pre-release* section, we inserted three dogs into the database (see file `db/seeds.rb`).  If we check the count of dog records in the database (see Figure 6), we'll see that there are three records in the dogs table: the three that were inserted when we seeded the database.
 
-From within the console run ...
+```
+new_dog.persisted?
+```
+*Figure 7*.  Asking a dog object if it's been saved.
 
-- `Dog.count`
+```
+new_dog.save
+```
+*Figure 8*.  Saving a dog to the database.
 
-  We'll see that the `dogs` table holds three records, the three that were inserted when we seeded the database.
+We can even ask the object itself if it's been saved to the database (see Figure 7).  After we instantiate a new instance of dog, if we want to store its data in the database, we have to call `#save` on the object.
 
-- `new_dog = Dog.new(name: "Bear")`
+Calling `#save` on our object will tell Active Record that we want to write to the database.  In this case, we want to write a new record.  What type of SQL query would Active Record need to generate and execute?
 
-  `::new` works very similarly to what we're used to seeing with our Ruby classes.  A new instance of `Dog` has been created and the attributes that we've specified when calling `::new` have been assigned to the object.  In our case, we have a `Dog` object with the name `"Bear"`.  The variable `new_dog` has been assigned this object as its value.
-  
-  The attributes that we didn't specify have been set to `nil`, as we might expect.  Notice, the value of the `id` attribute.  It is also `nil`.  When we create a new instance of `Dog` by calling `Dog.new`, we are not saving the record to the database.  The object only exists in memory.
-
-- `Dog.count`
-
-  We'll see that the `dogs` table still holds just three records.
-
-- `new_dog.save`
-
-  If we have an instance of `Dog`, we can try to save it to the database by calling `#save` on the instance.  This will generate and execute a SQL query; in this case:
+Our dog object was not previously in the database, so calling `#save` generates and executes an insert query.  In this case, something like
   
   `INSERT INTO "dogs" ("name", ...) VALUES (?, ...)  [["name", "Bear"], ...]`
 
-  The `#save` method then returns `true` if the record was saved successfully and `false` if not.
+If the record was saved successfully, the `#save` method returns `true`; it returns `false` if not.
 
-- `Dog.count`
+Now that we've saved our dog object, we should see some changes.  Let's take a look at the value of the variable `new_dog`.  What happened to its `id`, `created_at`, and `updated_at` attributes?  What are their values?  Does our dog object report that it's now persisted?  What is the count of dogs in the database?
 
-  We'll see that the `dogs` table now holds four records, the three that were inserted when we seeded the database and now Bear.
+
+
 
 - `Dog.create(name: "Max")`
 
