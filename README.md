@@ -154,7 +154,6 @@ In the console output displayed when running the code in Figure 14, we can see t
 The returned `Dog` object has an id assigned (i.e., it's not `nil`), so we know that the save was successful.
 
 
-### Release 2: Insert new Records
-
-In the console, practice inserting new records into the database using the methods outlined above.  Create some dogs, people, and ratings.  Submit the challenge only when you're comfortable creating new records.
+### Release 5: Insert new Records
+In the console, practice inserting new records into the database using the methods outlined above.  Create some dogs, people, and ratings.  Use `.new` and `#save`.  Use `.create`.  Make records one at a time.  Make multiple records at the same time.  Use `.find_or_initialize_by` and `.find_or_create_by`.  Take this time to build familiarity with these methods.  We'll be relying on them heavily throughout the rest of Dev Bootcamp.
 
