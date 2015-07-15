@@ -112,37 +112,47 @@ Dog.create [{name: "Toot"}, {name: "Cosmo"}]
 So far, we've been creating single dog objects, but we might find ourselves in a position where we need to create multiple dogs.  We can create multiple records with one call to `.create` by passing an array of argument hashes (see Figure 10).
 
 
-### Release 1: `find_or_initialize_by` and `find_or_create_by`
+### Release 4:  Find a Dog or Make a New One
+Sometimes we are unsure whether a record already exists in the database.  For example, is there already a dog named Tenley with this license number?  There are a couple methods that will look for a record in the database and if it's there, return it, and if not, create a new object.  And similar to the relationship between `.new` and `.create`, we can just initialize the object or both initialize and save the object.
 
-Sometimes we are unsure whether a record already exists in the database.  For example, is there already a dog named Tenley with this license number?  There are a couple methods that will look for a record in the database and if it's there, return it, and if not, create a new object.
+```
+Dog.find_by(license: "OH-9384764")
+```
+*Figure 11*.  Finding the dog with license OH-9384764.
 
-- `Dog.pluck(:name)`
+When we seeded our database we inserted three dogs.  One of the dogs was named Tenley and had the license OH-9384764.  We can use the `.find_by` method to pull this record from the database (see Figure 11).  We'll see that the returned instance of `Dog` has the id 1.
 
-  We'll see the names or the dogs in our database.  Note that the name `"Tenley"` is already in the database.
+Imagine we're working with an application where we need to register dogs—maybe it's a veterinary clinic.  We need to register a dog, but we're unsure whether or not the dog is already in our system.  If it is, we want to use the existing database record.  If not, we'll need to register the dog.
 
-- `Dog.find_or_initialize_by(name: "Tenley", license: "OH-9384764")`
+```
+Dog.find_or_initialize_by(license: "OH-9384764")
+```
+*Figure 12*.  Find and return the dog with license OH-9384764 or instantiate an object with that license.
 
-  Here we want to return the `Dog` with the name `"Tenley"` and license number `"OH-9384764"` if such a record exists in the database.  We can see in the console output that Active Record executes a SQL query:
-  
-  `SELECT  "dogs".* FROM "dogs"  WHERE "dogs"."name" = 'Tenley' AND "dogs"."license" = 'OH-9384764' LIMIT 1`
-  
-  In this case, such a record exists and so the method `::find_or_initialize_by` returns the object.
+In Figure 12 we want to return the dog with license number OH-9384764, if such a record exists in the database.  We can see in the console output that Active Record executes a SQL query similar to `SELECT  "dogs".* FROM "dogs"  WHERE "dogs"."name" = 'Tenley' AND "dogs"."license" = 'OH-9384764' LIMIT 1`.
 
-- `Dog.find_or_initialize_by(name: "Tenley", license: "MI-1234567")`
+In this case, such a record exists and so `.find_or_initialize_by` returns the object.  We can see that this dog's name is Tenley and that it has the id 1.
 
-  In this case, we're again looking for a dog named "Tenley".  But, this time, the dog should have a different license.  The record is not found in the database, so Active Record instantiates a new `Dog` object and assigns the attributes that we were looking for.  But, like `::new`, `::find_or_initialize_by` does not attempt to save the record to the database.  We can see that the object's `id` is `nil`.  We would need to call `#save` on the returned instance if we wanted to save to the database.
+```
+Dog.find_or_initialize_by(license: "MI-1234567")
+```
+*Figure 13*. Find and return the dog with license MI-1234567 or instantiate an object with that license.
 
-- `Dog.find_or_create_by(name: "Taj", license: "OH-9084736")`
+In Figure 13 we're looking for a dog with a different license—one not in the database.  The record is not found in the database, so Active Record instantiates a new `Dog` object and assigns the attributes that we we're looking for.
 
-  `::find_or_create_by` is similar to `::find_or_initialize_by` except that if it doesn't find a record matching the given attributes, it both instantiate a new object with those attributes and also attempt to save it to the database.
-  
-  In the console output, we can see that two SQL queries were run.  First, Active Record attempted to find a record with the supplied attributes.  Then, after not finding one, it attempted the save a new record with the supplied attributes:
-  
-  `INSERT INTO "dogs" ("license", "name", ...) VALUES (?, ?, ...)  [["license", "OH-9084736"], ["name", "Taj"], ...]`
-  
-  The returned `Dog` object has an `id` assigned (i.e., it's not `nil`), so we know that the save was successful.
+Like the `.new` method, `.find_or_initialize_by` does not attempt to save the record to the database.  We can see that the object's `id` is `nil`.  We would need to call `#save` on the returned instance if we wanted to save to the database.
 
-- `exit`
+```
+Dog.find_or_create_by(name: "Taj", license: "OH-9084736")
+```
+*Figure 14*. Find and return the dog with the name Taj and license OH-9084736 or instantiate and save an object with that name and license.
+
+If we decide that we don't want to just instantiate an object if a matching record doesn't exist in the database, we can use `.find_or_create_by`.  This method is similar to `.find_or_initialize_by` except that if it doesn't find a record matching the given attributes, it both instantiate a new object with those attributes and also attempt to save it to the database.
+
+In the console output displayed when running the code in Figure 14, we can see that two SQL queries were run.  First, Active Record attempted to find a record with the supplied attributes.  Then, after not finding a match, Active Record attempted the save a new record with the supplied attributes with a query similar to `INSERT INTO "dogs" ("license", "name", ...) VALUES (?, ?, ...)  [["license", "OH-9084736"], ["name", "Taj"], ...]`.
+
+The returned `Dog` object has an id assigned (i.e., it's not `nil`), so we know that the save was successful.
+
 
 ### Release 2: Insert new Records
 
