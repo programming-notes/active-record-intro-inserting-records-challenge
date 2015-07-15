@@ -157,3 +157,6 @@ The returned `Dog` object has an id assigned (i.e., it's not `nil`), so we know 
 ### Release 5: Insert new Records
 In the console, practice inserting new records into the database using the methods outlined above.  Create some dogs, people, and ratings.  Use `.new` and `#save`.  Use `.create`.  Make records one at a time.  Make multiple records at the same time.  Use `.find_or_initialize_by` and `.find_or_create_by`.  Take this time to build familiarity with these methods.  We'll be relying on them heavily throughout the rest of Dev Bootcamp.
 
+
+## Conclusion
+This challenge exposed us to different approaches we can take when working with Active Record models and persisting them.  When we build our applications, sometimes we'll want to take one approach and sometimes another.  In particular, we need to be certain we understand the difference between `.new`/`#save` and `.create`.  Before moving on, let's be sure that we understand the different methods outlined in this challenge.
