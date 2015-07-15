@@ -90,17 +90,18 @@ If the record was saved successfully, the `#save` method returns `true`; it retu
 Now that we've saved our dog object, we should see some changes.  Let's take a look at the value of the variable `new_dog`.  What happened to its `id`, `created_at`, and `updated_at` attributes?  What are their values?  Does our dog object report that it's now persisted?  What is the count of dogs in the database?
 
 
+### Release 2:  Instantiate and Save at the Same Time
+```
+Dog.create(name: "Max")
+```
+*Figure 9*.  Instantiating and saving a dog with the `.create` method.
 
+In *Release 0* and *Release 1* we created an in-memory Ruby object and then later persisted the state of that object in the database.  There are times when this approach is appropriate, but there are other times when we might want to instantiate a new object and save it to the database at the same time.  `.create` gives us this option (see Figure 9).
 
-- `Dog.create(name: "Max")`
+`.create` will instantiate the new object, assign its attributes, and attempt to save it to the database.  However, whereas `#save` returns a true/false value depending on whether or not writing to the database was successful, `.create` will always return the newly instantiated object.  If the save was successful, the object will have its `id` attribute assigned.  If the save was unsuccessful, the object's `id` will be `nil`.
 
-  Sometimes we want to instantiate a new object and save it to the database at the same time.  `::create` gives us this option.  
-  
-  `::create` will create the new object, assign attributes, and attempt to save it to the database.  However, wherease `#save` returns a true/false value, `::create` is more subtle.  `::create` will always return the newly instantiated object.  If the save was successful, the object will have its `id` attribute assigned.  If the save was unsuccessful, the object's `id` will be `nil`.
+Having run the code in Figure 9, we should see that the count of dogs in the database has increased to five.
 
-- `Dog.count`
-
-  We'll see that the `dogs` table now holds five records.
 
 - `Dog.create [{name: "Toot"}, {name: "Cosmo"}]`
 
