@@ -103,9 +103,13 @@ In *Release 0* and *Release 1* we created an in-memory Ruby object and then late
 Having run the code in Figure 9, we should see that the count of dogs in the database has increased to five.
 
 
-- `Dog.create [{name: "Toot"}, {name: "Cosmo"}]`
+### Release 3:  Creating Multiple Dogs and the Same Time
+```
+Dog.create [{name: "Toot"}, {name: "Cosmo"}]
+```
+*Figure 10*. Creating two dogs at the same time.
 
-  We can also create multiple records with one call to `::create` by passing an array of argument hashes.
+So far, we've been creating single dog objects, but we might find ourselves in a position where we need to create multiple dogs.  We can create multiple records with one call to `.create` by passing an array of argument hashes (see Figure 10).
 
 
 ### Release 1: `find_or_initialize_by` and `find_or_create_by`
