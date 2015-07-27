@@ -60,19 +60,19 @@ In our plain Ruby objects, we probably just ignore unexpected keys, but Active R
 ### Release 1: Persisting an Object
 In *Release 0* we created a new dog object, and we assigned it to the variable `new_dog` (see Figure 4).  This object exists only in memory, and it is not backed up in the database.
 
-```
+```ruby
 Dog.count
 ```
 *Figure 6*. Determining how many dog records exist in the database.
 
 When we seeded our database in the *Pre-release* section, we inserted three dogs into the database (see file `db/seeds.rb`).  If we check the count of dog records in the database (see Figure 6), we'll see that there are three records in the dogs table: the three that were inserted when we seeded the database.
 
-```
+```ruby
 new_dog.persisted?
 ```
 *Figure 7*.  Asking a dog object if it's been saved.
 
-```
+```ruby
 new_dog.save
 ```
 *Figure 8*.  Saving a dog to the database.
@@ -89,7 +89,7 @@ Now that we've saved our dog object, we should see some changes.  Let's take a l
 
 
 ### Release 2:  Instantiate and Save at the Same Time
-```
+```ruby
 Dog.create(name: "Max")
 ```
 *Figure 9*.  Instantiating and saving a dog with the `.create` method.
@@ -102,7 +102,7 @@ Having run the code in Figure 9, we should see that the count of dogs in the dat
 
 
 ### Release 3:  Creating Multiple Dogs and the Same Time
-```
+```ruby
 Dog.create [{name: "Toot"}, {name: "Cosmo"}]
 ```
 *Figure 10*. Creating two dogs at the same time.
@@ -113,7 +113,7 @@ So far, we've been creating single dog objects, but we might find ourselves in a
 ### Release 4:  Find a Dog or Make a New One
 Sometimes we are unsure whether a record already exists in the database.  For example, is there already a dog named Tenley with this license number?  There are a couple methods that will look for a record in the database and if it's there, return it, and if not, create a new object.  And similar to the relationship between `.new` and `.create`, we can just initialize the object or both initialize and save the object.
 
-```
+```ruby
 Dog.find_by(license: "OH-9384764")
 ```
 *Figure 11*.  Finding the dog with license OH-9384764.
@@ -122,7 +122,7 @@ When we seeded our database we inserted three dogs.  One of the dogs was named T
 
 Imagine we're working with an application where we need to register dogs—maybe it's a veterinary clinic.  We need to register a dog, but we're unsure whether or not the dog is already in our system.  If it is, we want to use the existing database record.  If not, we'll need to make a new record for the dog.
 
-```
+```ruby
 Dog.find_or_initialize_by(license: "OH-9384764")
 ```
 *Figure 12*.  Find and return the dog with license OH-9384764 or instantiate an object with that license.
@@ -131,7 +131,7 @@ In Figure 12 we want to return the dog with license number OH-9384764, if such a
 
 In this case, such a record exists and so `.find_or_initialize_by` returns the object.  We can see that this dog's name is Tenley and that it has the id 1.
 
-```
+```ruby
 Dog.find_or_initialize_by(license: "MI-1234567")
 ```
 *Figure 13*. Find and return the dog with license MI-1234567 or instantiate an object with that license.
@@ -140,7 +140,7 @@ In Figure 13 we're looking for a dog with a different license—one not in the d
 
 Like the `.new` method, `.find_or_initialize_by` does not attempt to save the record to the database.  We can see that the object's id is `nil`.  We would need to call `#save` on the returned instance if we wanted to save to the database.
 
-```
+```ruby
 Dog.find_or_create_by(name: "Taj", license: "OH-9084736")
 ```
 *Figure 14*. Find and return the dog with the name Taj and license OH-9084736 or instantiate and save an object with that name and license.
