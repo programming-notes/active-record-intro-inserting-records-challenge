@@ -45,7 +45,7 @@ new_dog = Dog.new(name: "Bear")
 
 Active Record provides the same interface for instantiating new objects that we're used to using with our plain Ruby classes:  we call `.new` on our class and pass in a hash of attribute values.  In Figure 4, we're creating a new instance of the `Dog` class and assigning its name attribute the value `"Bear"`.  The attributes that we didn't specify have been set to `nil`, as we might expect.  Notice, the value of the `id` attribute; it is also `nil`.
 
-In our plain Ruby classes, each of the keys in the hash we pass in probably maps to an instance variable that we want to set in our `#initialize` method.  A similar thing happens here.  In the case of Figure 4, we end up with a dog object with the name `"Bear"`.  But there is a catch.
+In our plain Ruby classes, each of the keys in the hash we pass in maps to an instance variable that we want to set in our `#initialize` method.  A similar thing happens here.  In the case of Figure 4, we end up with a dog object with the name `"Bear"`.  But there is a catch.
 
 ```ruby
 Dog.new(color: "brown")
@@ -83,7 +83,7 @@ Calling `#save` on our object will tell Active Record that we want to write to t
 
 Our dog object was not previously in the database, so calling `#save` generates and executes an insert query.  In this case, something like `INSERT INTO "dogs" ("name", ...) VALUES (?, ...)  [["name", "Bear"], ...]`
 
-If the record was saved successfully, the `#save` method returns `true`; it returns `false` if not.
+If the record was saved successfully, the `#save` method returns `true`; otherwise, it returns `false`.
 
 Now that we've saved our dog object, we should see some changes.  Let's take a look at the value of the variable `new_dog`.  What happened to its `id`, `created_at`, and `updated_at` attributes?  What are their values?  Does our dog object report that it's now persisted?  What is the count of dogs in the database?
 
