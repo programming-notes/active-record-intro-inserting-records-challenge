@@ -10,7 +10,7 @@ end
 
 *Figure 1.*  Code for the class `Dog`.
 
-We will be working primarily with a pre-written, empty `Dog` class (see Figure 1 and the file `app/models/dog.rb`).  There are no methods defined within the class itself.  The behaviors that we'll explore in this challenge are inherited through its parent class, `ActiveRecord::Base`.  
+We will be working primarily with a pre-written, empty `Dog` class (see Figure 1 and the file `app/models/dog.rb`).  There are no methods defined within the class itself.  The behaviors that we'll explore in this challenge are inherited through its parent class, `ActiveRecord::Base`.
 
 Among these inherited methods, are class methods for inserting records into the database.  Just as it is the responsibility of our plain Ruby classes to instantiate new instances of themselves, Active Record model classes are also responsible for instantiating instances of themselves.  We'll take a look at different approaches that Active Record provides.
 
@@ -101,7 +101,7 @@ In *Release 0* and *Release 1* we created an in-memory Ruby object and then late
 Having run the code in Figure 9, we should see that the count of dogs in the database has increased to five.
 
 
-### Release 3:  Creating Multiple Dogs and the Same Time
+### Release 3:  Creating Multiple Dogs at the Same Time
 ```ruby
 Dog.create [{name: "Toot"}, {name: "Cosmo"}]
 ```
