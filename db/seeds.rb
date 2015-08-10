@@ -10,14 +10,13 @@ jayda_details = { :name    => "Jayda",
                   :age     => 3,
                   :breed   => "Bull Terrier" }
 
+eleanor_details = { :name    => "Eleanor",
+                    :license => "OH-9843098",
+                    :age     => 1,
+                    :breed   => "Pit Bull" }
 
-tenley = Dog.new(tenley_details)
-tenley.save
+Dog.create(tenley_details)
+Dog.create(eleanor_details)
 
-Dog.create(jayda_details)
-
-Dog.find_or_create_by(name: "Eleanor") do |dog|
-  dog.license = "OH-9843098"
-  dog.age     = 1
-  dog.breed   = "Pit Bull"
-end
+jayda = Dog.new(jayda_details)
+jayda.save
