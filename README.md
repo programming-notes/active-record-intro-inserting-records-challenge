@@ -14,7 +14,7 @@ We will be working primarily with a pre-written, empty `Dog` class (see Figure 1
 
 Among these inherited methods, are class methods for inserting records into the database.  Just as it is the responsibility of our plain Ruby classes to instantiate new instances of themselves, Active Record model classes are also responsible for instantiating instances of themselves.  We'll take a look at different approaches that Active Record provides.
 
-### Instantiation vs. Persistance
+### Instantiation vs. Persistence
 We need to make a distinction between creating objects in Ruby that exist in our computer's memory and persisting the state of these objects (i.e., the data that represents them) in the database.  As our Ruby programs run, they create in-memory objects, but these objects do not necessarily need to be saved to the database.  Sometimes we will want to persist the data associated with an object and sometimes we won't.  Active Record often provides paired methods—one that instantiates objects and a counterpart that creates objects and saves them to the database.
 
 
